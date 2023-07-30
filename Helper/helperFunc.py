@@ -50,7 +50,7 @@ def get_model_predict(model: YOLO , input_image: Image, save: bool = False, imag
     return predictions
 
 
-# does preddiction on sample model
+# does preddiction on sample image
 def get_sample_model(input_image:Image)->pd.DataFrame:
     predict=get_model_predict(
         model=model,
