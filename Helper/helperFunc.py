@@ -6,7 +6,8 @@ import numpy as np
 from typing import Optional
 
 from ultralytics import YOLO
-# from ultralytics.yolo.utils.plotting import Annotator, colors
+from ultralytics.yolo.utils.plotting import Annotator, colors
+# Annotator allows us to draw bounding boxes on images 
 
 model=YOLO("Model2(Large).pt")
 
@@ -30,7 +31,7 @@ def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plasti
     data=predictions[0].to("cpu").numpy.boxes
     df['xmin','ymin','xmax','ymax']=data.xyxy
     df['confidence']=data.conf
-    # df['Class']=label_dict[(data.cls).astype(int)]
+    df['Class']=label_dict[(data.cls).astype(int)]
     return df
 
 
@@ -61,6 +62,23 @@ def get_sample_model(input_image:Image)->pd.DataFrame:
         image_size=640
     )
     return predict
+
+
+# add bounding boxes to images by passing image and coordinates
+def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:
+    annotator=Annotator(np.array(image))
+
+    predict=predict.sort_values(by =predict['xmin'],ascending=True) # to ensure bb are added from left to right
+
+    for i, row in predict.iterrows():
+        bounding_Box_coord=[row['xmin'],row['ymin'],row['xmax'],row['ymax']]
+        text=f"{row['name']}:{row['confidence']*100}%"
+        annotator.box_label(bounding_Box_coord,text,color=colors(row['Class'],True))
+         
+         # converting the annnotated image to pIl image
+        return Image.fromarray(annotator.result())
+
+
 
 
 
