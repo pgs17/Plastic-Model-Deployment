@@ -2,11 +2,12 @@ from PIL import Image
 import io
 import pandas as pd
 import numpy as np
+import os
 
 from typing import Optional
 
 from ultralytics import YOLO
-from ultralytics.yolo.utils.plotting import Annotator, colors
+from ultralytics.utils.plotting import Annotator, colors
 # Annotator allows us to draw bounding boxes on images 
 
 model=YOLO("Model2(Large).pt")
@@ -36,16 +37,12 @@ def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plasti
 
 
 # Perform model prediction
-def get_model_predict(model: YOLO , input_image: Image, save: bool = False, image_size: int = 1248, conf: float = 0.41, augment: bool = False)->pd.DataFrame:
+def get_model_predict(model: YOLO , input_image: Image, save: bool = False, image_size: int = 1248, conf: float = 0.41)->pd.DataFrame:
     predictions= model.predict(imgsz=image_size, 
                         source=input_image, 
                         conf=conf,
-                        save=save, 
-                        augment=augment,
-                        flipud= 0.0,
-                        fliplr= 0.0,
-                        mosaic = 0.0,)
-    # flipud and fliplr and mosaic are augmentation parameters set to 00 to avoid augmentation on those params
+                        save=save,                       
+                        )
     predictions= Transform_predict_to_Dataframe(predictions,model.model.names)
     # model.model.names will map the numeric values to their class labels
     return predictions
@@ -76,7 +73,20 @@ def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:
         annotator.box_label(bounding_Box_coord,text,color=colors(row['Class'],True))
          
          # converting the annnotated image to pIl image
-        return Image.fromarray(annotator.result())
+    return Image.fromarray(annotator.result())
+
+# save image along with the confidence values
+def save_image(file_name:str,image:Image,prediction:pd.DataFrame,folder_name:str="Prediction")->None:
+    folder_path=os.path.join(folder_name,file_name.split(".")[0])
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+    image.save(os.path.join(folder_path,f"{file_name}_predicted.jpg"))
+
+    with open(os.path.join(folder_path,f"{file_name}_predicted.txt"),"w") as file:
+        file.write(prediction.to_string())    
+    
+
+
 
 
 
