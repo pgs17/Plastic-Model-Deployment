@@ -21,9 +21,9 @@ def get_Images_from_Bytes(binary_image:bytes)->Image:
 
 # images will be passed and we will get the bytes back
 def get_bytes_from_Images(image:Image)-> bytes:
-    return_image=io.BytesIO()
-    image.SAVE(return_image,format="JPEG",quality=86)
-    return_image.seek(0) 
+    return_image_array=io.BytesIO()
+    image.save(return_image_array,format="JPEG",quality=86)
+    return_image_array.seek(0) 
     return return_image
 
 # transform predict data in form of torch.tensor to numpy array   
