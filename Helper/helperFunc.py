@@ -28,18 +28,20 @@ def get_bytes_from_Images(image:Image)-> bytes:
 
 # transform predict data in form of torch.tensor to numpy array   
 def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plastic"})-> pd.DataFrame:
-    df=pd.DataFrame()
-    data=predictions[0].to("cpu").numpy.boxes
-    df['xmin','ymin','xmax','ymax']=data.xyxy
-    df['confidence']=data.conf
-    df['Class']=label_dict[(data.cls).astype(int)]
+    # df=pd.DataFrame()
+    data=predictions[0].to("cpu").numpy().boxes
+    df = pd.DataFrame(predictions[0].to("cpu").numpy().boxes.xyxy, columns=['xmin', 'ymin', 'xmax','ymax'])
+    df["Confidence"] = data.conf
+    print((data.cls).astype(int))
+    # df["Labels"] = labels[(data.cls).astype(int)] # Maybe ?
     return df
 
 
 # Perform model prediction
-def get_model_predict(model: YOLO , input_image: Image, save: bool = False, image_size: int = 640, conf: float = 0.41)->pd.DataFrame:
-    predictions= model.predict(imgsz=image_size, 
-                        source=input_image, 
+def get_model_predict( img: Image, model : YOLO, save: bool = False, imgsize : int = 640, conf: float= 0.31, )->pd.DataFrame:
+    predictions= model.predict( 
+                        source=img, 
+                        imgsz=imgsize,
                         conf=conf,
                         save=save,                       
                         )
@@ -51,12 +53,12 @@ def get_model_predict(model: YOLO , input_image: Image, save: bool = False, imag
 def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:
     annotator=Annotator(np.array(image))
 
-    predict=predict.sort_values(by =predict['xmin'],ascending=True) # to ensure bb are added from left to right
+    predict=predict.sort_values(by =['xmin'],ascending=True) # to ensure bb are added from left to right
 
     for i, row in predict.iterrows():
         bounding_Box_coord=[row['xmin'],row['ymin'],row['xmax'],row['ymax']]
-        text=f"{row['name']}:{row['confidence']*100}%"
-        annotator.box_label(bounding_Box_coord,text,color=colors(row['Class'],True))
+        # text=f"{row['name']}:{row['confidence']*100}%"
+        annotator.box_label(bounding_Box_coord,color=(256,0,0))
          
          # converting the annnotated image to pIl image
     return Image.fromarray(annotator.result())
