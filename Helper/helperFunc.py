@@ -47,20 +47,6 @@ def get_model_predict(model: YOLO , input_image: Image, save: bool = False, imag
     
     return predictions
 
-
-# does preddiction on sample image
-def get_sample_model(input_image:Image)->pd.DataFrame:
-    predict=get_model_predict(
-        model=model,
-        input_image=input_image,
-        save=False,
-        augment=False,
-        conf=0.41,
-        image_size=640
-    )
-    return predict
-
-
 # add bounding boxes to images by passing image and coordinates
 def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:
     annotator=Annotator(np.array(image))
