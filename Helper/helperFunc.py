@@ -24,7 +24,7 @@ def get_bytes_from_Images(image:Image)-> bytes:
     return_image_array=io.BytesIO()
     image.save(return_image_array,format="JPEG",quality=86)
     return_image_array.seek(0) 
-    return return_image
+    return return_image_array
 
 # transform predict data in form of torch.tensor to numpy array   
 def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plastic"})-> pd.DataFrame:
