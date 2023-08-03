@@ -37,14 +37,14 @@ def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plasti
 
 
 # Perform model prediction
-def get_model_predict(model: YOLO , input_image: Image, save: bool = False, image_size: int = 1248, conf: float = 0.41)->pd.DataFrame:
+def get_model_predict(model: YOLO , input_image: Image, save: bool = False, image_size: int = 640, conf: float = 0.41)->pd.DataFrame:
     predictions= model.predict(imgsz=image_size, 
                         source=input_image, 
                         conf=conf,
                         save=save,                       
                         )
-    predictions= Transform_predict_to_Dataframe(predictions,model.model.names)
-    # model.model.names will map the numeric values to their class labels
+    predictions= Transform_predict_to_Dataframe(predictions)
+    
     return predictions
 
 
