@@ -19,8 +19,8 @@ def startupevent():
     if not os.path.exists("Prediction"):
         os.makedirs("Prediction")
 
-    if not os.path.exists("tmp"):
-        os.makedirs("tmp")
+    # if not os.path.exists("tmp"):
+    #     os.makedirs("tmp")
     print("Start Done") 
 
 
