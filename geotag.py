@@ -21,10 +21,7 @@ def geo(path):
     ltd=(float)((((n[0]*60)+n[1])*60)+n[2])/60/60
     lng=(float)((((e[0]*60)+e[1])*60)+e[2])/60/60
     return ltd,lng
-"""from gmplot import gmplot
-gmap=gmplot.GoogleMapPlotter(ltd,lng,12)
-gmap.marker(ltd,lng,'blue')
-gmap.draw('location.html')"""
+
 
 def live(number):
     divided=phonenumbers.parse(number)
