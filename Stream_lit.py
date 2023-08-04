@@ -15,7 +15,7 @@ def main():
   st.title(" Detect Plastics With Yolo Model ")
 
   img=st.file_uploader("Upload the image in jpg or jpeg",type=['jpg','jpeg'])
-  video=st.file_uploader("Upload the video in mp4 format",type=['mp4'])
+  # video=st.file_uploader("Upload the video in mp4 format",type=['mp4'])
 
   if img is not None:
     st.image(Image.open(img),caption="Uploaded",use_column_width=True)
@@ -26,7 +26,7 @@ def main():
 
 
 def detect_plastic(image:Image):
-   api_img="http://localhost:6942/prediction_on_image"
+   api_img="http://localhost:6942/predict_save_image"
    image_byte=io.BytesIO()
    image.save(image_byte,format="JPEG")
    image_byte=image_byte.getvalue()
@@ -34,6 +34,7 @@ def detect_plastic(image:Image):
    response=requests.post(api_img,files={"file":image_byte})
    if response.status_code==200:
      st.image(Image.open(io.BytesIO(response.content)),caption="Detected",use_column_width=True)
+
    else:
      st.error("Error Detecting Objects")  
 

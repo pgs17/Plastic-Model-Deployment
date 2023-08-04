@@ -36,7 +36,8 @@ async def prediction_on_img(file:UploadFile=File(...)):
     model=YOLO("Model2(Large).pt")
     image=get_Images_from_Bytes(file.file.read())
     predictions=get_model_predict(image,model)
-    print(predictions)
+    # print("abc",predictions)
+    print(list(predictions))
     bb_box=add_BoundingBoxes(image,predictions)
     return StreamingResponse(content=get_bytes_from_Images(bb_box),media_type="image/jpeg")
 
