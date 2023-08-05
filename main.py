@@ -35,8 +35,8 @@ async def redirect():
 async def prediction_on_img(file:UploadFile=File(...)):
     model=YOLO("Model2(Large).pt")
     image=get_Images_from_Bytes(file.file.read())
-    predictions=get_model_predict(image,model)
-    # print("abc",predictions)
+    predictions,plastic_number=get_model_predict(image,model)
+    print("abc",predictions,plastic_number)
     print(list(predictions))
     bb_box=add_BoundingBoxes(image,predictions)
     return StreamingResponse(content=get_bytes_from_Images(bb_box),media_type="image/jpeg")
@@ -46,11 +46,11 @@ async def prediction_on_img(file:UploadFile=File(...)):
 async def predict_and_save(file:UploadFile=File(...)):
     model=YOLO("Model2(large).pt")
     img=get_Images_from_Bytes(file.file.read())
-    predictions=get_model_predict(img,model)
+    predictions,plastic_number=get_model_predict(img,model)
     bb_box=add_BoundingBoxes(img,predictions)
     processed_image_bytes=get_bytes_from_Images(bb_box)
     save_image(file_name=file.filename,image=bb_box,prediction=predictions)
-    return StreamingResponse(content=processed_image_bytes,media_type="image/jpeg")
+    return StreamingResponse(content=processed_image_bytes,media_type="image/jpeg") 
 
 
 
