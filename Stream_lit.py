@@ -20,9 +20,9 @@ url=" http://192.168.29.213:8501"
 def main():
 
   st.set_page_config(page_title="Plastic Detector")
-  st.title(" Detect Plastics With Yolo Model ")
+  st.title(" 🌊Detect Plastics and Improve Marine Life 🐠🦈 ") 
 
-  img=st.file_uploader("Upload the image in jpg or jpeg",type=['jpg','jpeg'])
+  img=st.file_uploader("Upload the image in jpg or jpeg for Detection",type=['jpg','jpeg'])
   number=st.text_input("Enter Your Phone Number With Country Code")
   # video=st.file_uploader("Upload the video in mp4 format",type=['mp4'])
 
