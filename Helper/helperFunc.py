@@ -46,8 +46,8 @@ def get_model_predict( img: Image, model : YOLO, save: bool = False, imgsize : i
                         save=save,                       
                         )
     predictions= Transform_predict_to_Dataframe(predictions)
-    
-    return predictions
+    plas=predictions.shape[0]
+    return predictions,plas
 
 # add bounding boxes to images by passing image and coordinates
 def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:
