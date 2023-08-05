@@ -35,3 +35,9 @@ This project covers all aspects that need to be emphasised on to minimise the pr
 - Create a Virtual Environment and activate it
 - pip install requirements.txt (basically fastapi ultralytics streamlit phonenumbers geopy PIL pathlib)
 - Run *python startscript.py* to start the server and *streamlit run Stream_lit.py* to start the frontend
+
+
+## To start server only:
+- docker build -t yolo .
+- docker run -p 8000:8000 yolo
+- now we can go on local host 8000 and test the API
