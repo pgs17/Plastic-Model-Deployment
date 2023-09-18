@@ -1,4 +1,10 @@
-#Plastic-Model-Deployment
+# Plastic-Model-Deployment
+
+## YouTube Link:
+https://youtu.be/l3Quzbx5R00
+
+
+
 
 ## Problem Statement
   Develop a reliable and efficient AI-based object detection model using drone images to detect plastic waste in rivers and demonstrate a feasible solution/system architecture for implementation, ultimately reducing the negative impact of plastic pollution on the environment and human health.
