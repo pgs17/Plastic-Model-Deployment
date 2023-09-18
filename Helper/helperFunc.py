@@ -3,7 +3,7 @@ import io
 import pandas as pd
 import numpy as np
 import os
-
+import json
 from typing import Optional
 
 from ultralytics import YOLO
@@ -38,7 +38,7 @@ def Transform_predict_to_Dataframe(predictions: list,label_dict:dict ={0:"Plasti
 
 
 # Perform model prediction
-def get_model_predict( img: Image, model : YOLO, save: bool = False, imgsize : int = 640, conf: float= 0.31, )->pd.DataFrame:
+def get_model_predict( img: Image, model : YOLO, save: bool = False, imgsize : int = 640, conf: float= 0.31,flag: bool = False )->pd.DataFrame:
     predictions= model.predict( 
                         source=img, 
                         imgsz=imgsize,
@@ -46,8 +46,16 @@ def get_model_predict( img: Image, model : YOLO, save: bool = False, imgsize : i
                         save=save,                       
                         )
     predictions= Transform_predict_to_Dataframe(predictions)
-    plas=predictions.shape[0]
-    return predictions,plas
+    if flag:
+        predictions = predictions.to_json(orient='records')
+    return predictions
+
+
+# Count predictions
+def count_predictions(predictions: pd.DataFrame) -> int:
+     
+    return len(json.loads(predictions))
+
 
 # add bounding boxes to images by passing image and coordinates
 def add_BoundingBoxes(image:Image,predict:pd.DataFrame)->Image:

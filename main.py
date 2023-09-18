@@ -36,7 +36,7 @@ async def redirect():
 async def predict_to_json(file: UploadFile = File(...)):
     model = YOLO("Model2(Large).pt")
     image = get_Images_from_Bytes(file.file.read())
-    predictions = get_model_predict(image, model, flag = True)
+    predictions = get_model_predict(image, model,flag=True)
     data = json.loads(predictions)
      
     info= {
