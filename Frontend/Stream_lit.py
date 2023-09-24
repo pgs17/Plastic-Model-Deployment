@@ -11,7 +11,7 @@ import math
 import PIL.ExifTags
 from geopy.geocoders import Nominatim
 import pandas
-from Helper.helperFunc import get_model_predict
+from Backend.Helper.helperFunc import get_model_predict
 
 url=" http://192.168.29.213:8501"
 
