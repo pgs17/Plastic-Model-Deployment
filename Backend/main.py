@@ -8,6 +8,7 @@ import numpy as np
 import cv2
 from fastapi.responses import RedirectResponse,StreamingResponse
 import json
+from fastapi.middleware.cors import CORSMiddleware
 
 from Helper.helperFunc import add_BoundingBoxes,get_Images_from_Bytes,get_bytes_from_Images,get_model_predict,save_image
 
