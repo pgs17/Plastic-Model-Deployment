@@ -14,6 +14,20 @@ from Helper.helperFunc import add_BoundingBoxes,get_Images_from_Bytes,get_bytes_
 
 
 app=FastAPI(title="Detect Plastic")
+origins = [
+    "http://localhost",
+    "http://localhost:8008",
+    "http://localhost:8051",
+    "*"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def startupevent():
