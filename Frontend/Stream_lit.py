@@ -77,24 +77,25 @@ def dist(ltd1,lng1,ltd2,lng2):
     return d
 
 def detect_plastic(image:Image,numb):
-   api_img="http://fastapi:8000/predict_to_image"
-   image_byte=io.BytesIO()
-   image.save(image_byte,format="JPEG")
-   image_byte=image_byte.getvalue()
+  api_img="http://fastapi:8000/predict_to_image"
+  # api_img="http://localhost:6942/predict_save_image"
+  image_byte=io.BytesIO()
+  image.save(image_byte,format="JPEG")
+  image_byte=image_byte.getvalue()
    
-   lt1,ln1=geo(image)
+  lt1,ln1=geo(image)
     
-   v,lt2,ln2=live(numb)
-   if(v):
+  v,lt2,ln2=live(numb)
+  if(v):
       distance=dist(lt1,ln1,lt2,ln2)
-   else:
+  else:
       st.warning("Enter a valid Phone Number")
 
-   response=requests.post(api_img,files={"file":image_byte})
-   if response.status_code==200 and v:
+  response=requests.post(api_img,files={"file":image_byte})
+  if response.status_code==200 and v:
      st.image(Image.open(io.BytesIO(response.content)),caption=f"Detected at a distance of {distance} km",use_column_width=True)
 
-   else:
+  else:
      st.error("Error Detecting Objects")  
 
 
