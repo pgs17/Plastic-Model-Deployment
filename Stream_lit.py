@@ -11,7 +11,7 @@ import math
 import PIL.ExifTags
 from geopy.geocoders import Nominatim
 import pandas
-# from Backend.Helper.helperFunc import get_model_predict
+from Helper.helperFunc import get_model_predict
 
 url=" http://192.168.29.213:8501"
 
@@ -77,8 +77,8 @@ def dist(ltd1,lng1,ltd2,lng2):
     return d
 
 def detect_plastic(image:Image,numb):
-  api_img="http://fastapi:8000/predict_to_image"
-  # api_img="http://localhost:6942/predict_save_image"
+  # api_img="http://fastapi:8000/predict_to_image"
+  api_img="http://localhost:6942/predict_save_image"
   image_byte=io.BytesIO()
   image.save(image_byte,format="JPEG")
   image_byte=image_byte.getvalue()
